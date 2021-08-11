@@ -1,0 +1,163 @@
+Spin up a RedHat server. 8.0
+t2.large
+Tag it Ansible Tower
+SG: All traffic from anywhere
+
+
+# sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+# sudo dnf install ansible
+# sudo yum install wget
+# sudo wget https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-latest.tar.gz
+# ls
+# sudo tar xvzf ansible-tower-setup-latest.tar.gz
+# ls
+#cd ansible-tower-setup-3.0.3-2/
+# ls
+Blues are directories and Green are files.
+# sudo vi inventory [edit these lines (admin_password=put in a PW),  (pg_password=put in a PW) save & quit] 
+# ANSIBLE_BECOME=true ./setup.sh
+
+
+https://www.redhat.com/wapps/ugc/register.html (create a Redhat account) Choose personal, put in ur login info
+
+https://www.redhat.com/en/technologies/management/ansible
+# sudo tail /var/log/tower/tower.log
+
+
+Create a Github account www.github.com
+-create a repository in Github
+-Click on add a readme file
+-Click on code and copy the URL
+-Go to Gitbash and create a directory #mkdir jjtechsrc
+- Run this command on Gitbash # git clone (paste d url you copied)
+-https://github.com/tantuch19/JJTech-Bliss-Ansible-Tower.git  (go to url and clone the url) run # git clone (paste d url)
+-# cd into CNAnsibleTower
+-# ls
+- # pwd (copy the absolute path)   [/c/Users/ndeke/OneDrive/Desktop/jjtechsrc/CNAnsibleTower]
+- # cd ..
+- # ls
+- # cd JJtech-Bliss-Ansible-Tower
+- # ls
+# cp * /c/Users/ndeke/OneDrive/Desktop/jjtechsrc/CNAnsibleTower  (copy files into CNAnsibleTower)
+# ls
+# cd ..
+#cd CNAnsibleTower (Run the git command from this repository)
+# ls
+# git add . (to add files so git can see the files and start tracking it)
+# git commit -m "test commit"
+# git status
+# git push
+
+Go to Github and refresh the repository.
+
+click on credentials and create a credential called github-repo, select default organization & for credential type, search for Source Control. Enter d username & PW, then save.
+After saving you will see the credentials you created.
+
+Create the next credentials which is AWS-Authentication, organization is Default, credential type is Amazon Web Services. Enter your AcessKey & SecretAccessKey.
+
+Next thing is to set-up a project. Click on the green plus sign
+Name:ec2-provisioning automation
+Organization: Default
+Source Code Mgt (SCM): Git
+SCM URL: copy the clone url from your github account.
+select CLEAN, DELETE ON UPDATE & UPDATE REVISION ON LAUNCH...first 3 options.
+
+Create a template
+Job template.
+Inventory:demo
+project: select the project we just created.
+playbook: select create-ec2.yml
+credential: AWS
+click on save and scroll up then click ADD SURVEY
+
+Prompt: Please choose your team
+Answer Variable Name: team
+BlissBatch
+DeveloperTeam
+Testingteam
+
+prompt: Please choose your security group
+security_group
+BankEnd
+Restricted
+Core
+
+prompt: Please choose an AMI
+ami_type
+Rhel
+Ubuntu
+Windows
+AmazonLinux
+
+
+Please choose your Subnet
+vpc_subnet_id
+AZa
+AZb
+AZc
+
+Please choose your instance role
+instance_role
+admin
+
+Please enter the volume size
+root_volume_size
+
+Enter the EC2 instance name
+instance_name
+
+Please enter your Name or work email
+created_by
+
+Please choose an instance type
+instance_type
+t2.micro
+t2.medium
+t2.large
+t2.small
+
+Please provide the required owner tag
+Owner
+
+Please provide a required app name tag
+App_Name
+
+Please provide a required cost center tag
+Cost_Center
+
+Please provide a required business unit tag
+Business_Unit
+
+Click on launch.
+
+Go to the AWS region on the playbook. Search for parameter store under SSM.
+create parameters by copying the IDs of the Subnet, AMI & SG
+   
+   Subnets
+/JJTech/BlissBatch/AZa
+/JJTech/BlissBatch/AZb
+/JJTech/BlissBatch/Azc
+
+   AMI
+/JJTech/BlissBatch/AmazonLinux
+/JJTech/BlissBatch/Rhel
+/JJTech/BlissBatch/Ubuntu
+/JJTech/BlissBatch/Windows
+
+   SG
+/JJTech/BlissBatch/BackEnd
+/JJTech/BlissBatch/Core
+/JJTech/BlissBatch/Restricted
+
+   IAM Role
+/JJTech/BlissBatch/admin (select ec2-ssm role)
+ 
+    Keyname
+/JJTech/BlissBatch/keyname  (Windows-Nova)
+
+Then go to TOWER and launch the ec2
+
+
+
+
+
